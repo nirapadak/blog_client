@@ -1,0 +1,12 @@
+my server site repo link :-----------------
+https://github.com/nirapadak/blog_Server.git
+
+
+
+my client site repo link :-----------------
+https://github.com/nirapadak/blog_client.git
+
+ 
+deployed version link: ======================
+https://papaya-heliotrope-04db88.netlify.app
+
