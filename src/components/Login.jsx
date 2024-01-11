@@ -3,7 +3,7 @@ import {useState} from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
 import {useNavigate} from "react-router-dom";
-
+import {useAuth} from "../context/auth.jsx";
 
 
 const CardLogin = () => {
@@ -12,33 +12,16 @@ const CardLogin = () => {
     const [password, setPassword] = useState("");
 
     const navigate = useNavigate()
+    const [auth, setAuth] = useAuth();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
 
-            const token = localStorage.getItem("auth");
-
-            if (!token) {
-                console.error("Unauthorized user. Please log in.");
-                navigate("/login"); // Redirect to login page
-                return;
-            }
-
-            // Set the Authorization header with the token
-            const  config = {
-                headers: {
-                    Authorization: `${token}`,
-                },
-            };
-
-
-
 
             const { data } = await axios.post("https://impossible-lamb-outfit.cyclic.cloud/api/v1/login", {
                 email,
                 password,
-                config
             });
             console.log(data);
 
@@ -46,7 +29,7 @@ const CardLogin = () => {
                 toast.error(data.error);
             } else {
                 localStorage.setItem("auth", JSON.stringify(data));
-                axios.defaults.headers.common['Authorization'] = `Bearer ${data.token}`;
+                setAuth({ ...auth, token: data.token, user: data.user });
 
                 toast.success("login successful");
                 navigate('/')

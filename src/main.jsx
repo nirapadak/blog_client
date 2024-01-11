@@ -3,11 +3,14 @@ import ReactDOM from 'react-dom/client'
 import App from './App.jsx'
 import "bootstrap/dist/css/bootstrap.css"
 import 'antd/dist/reset.css'
+import {AuthProvider} from "./context/auth.jsx";
 // import './assets/css/card.css'
 
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <App />
+    <AuthProvider>
+        <App />
+    </AuthProvider>
   </React.StrictMode>,
 )

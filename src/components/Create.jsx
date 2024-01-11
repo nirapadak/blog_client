@@ -31,16 +31,16 @@ const Create = ({myTitle}) => {
                 url = "https://impossible-lamb-outfit.cyclic.cloud/api/v1/blog"
             }
 
-
-
+            
             const { data } = await axios.post(url, {
-                title,
-                description,
-                image,
-                blogCategory,
-                author,
+                    title,
+                    description,
+                    image,
+                    blogCategory,
+                    author,
             });
             console.log(data);
+            
 
             if (data?.error) {
                 toast.error(data.error);

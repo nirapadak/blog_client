@@ -4,37 +4,23 @@ import {useState} from "react";
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
 import toast from "react-hot-toast";
+import {useAuth} from "../context/auth.jsx";
 
 const RegisterCard = () => {
 
-    // const [formValue, setFromValue] = useState({name:"", email:"", password:""})
     let navigate = useNavigate();
-    // const InputOneChange = (property, value)=>{
-    //     setFromValue({...formValue,[property]:value})
-    // }
-    //
-    // const onSubmit = async ()=>{
-    //     let res = await axios.post('https://impossible-lamb-outfit.cyclic.cloud/api/v1/register', formValue);
-    //     if (res.status === 200){
-    //         alert("Data send success");
-    //         navigate('/login')
-    //     }
-    //
-    // }
-
 
 
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [auth, setAuth] = useAuth();
 
 
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-
-
 
             const { data } = await axios.post("https://impossible-lamb-outfit.cyclic.cloud/api/v1/register", {
                 name,
@@ -46,11 +32,13 @@ const RegisterCard = () => {
             if (data?.error) {
                 toast.error(data.error);
             } else {
+                // localStore data update ---------------------
                 localStorage.setItem("auth", JSON.stringify(data));
-                axios.defaults.headers.common['Authorization'] = `${data.token}`;
-
+                setAuth({ ...auth, token: data.token, user: data.user });
+                sessionStorage.setItem("token", data.token);
+            
                 toast.success("Registration successful");
-                navigate('/login')
+                navigate('/')
 
             }
         } catch (err) {
